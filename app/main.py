@@ -2,7 +2,12 @@ import os
 
 
 def move_file(command: str) -> None:
-    action, source, destination = command.split(" ")
+    parts = command.split(" ")
+
+    if len(parts) != 3 or parts[0] != "mv":
+        return
+
+    action, source, destination = parts
     path_parts = destination.split("/")
     target_file_name = path_parts.pop(-1)
 
@@ -11,7 +16,7 @@ def move_file(command: str) -> None:
 
     current_dir_path = ""
     for folder in path_parts:
-        current_dir_path += folder + "/"
+        current_dir_path = os.path.join(current_dir_path, folder)
         if not os.path.exists(current_dir_path):
             os.mkdir(current_dir_path)
 
